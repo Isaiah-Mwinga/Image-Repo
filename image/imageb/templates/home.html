@@ -1,0 +1,16 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Capture</title>
+</head>
+<body>
+    <h1>Image Capture</h1>
+    <form action="{% url 'capture_image' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image">
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Upload</title>
+</head>
+<body>
+    <h1>Upload an Image</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image" accept=".png, .jpg, .jpeg, .gif">
+        <button type="submit">Upload</button>
+    </form>
+    <div id="yaml-output"></div>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+    
+            const formData = new FormData(this);
+    
+            fetch('/upload/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}', // Include the CSRF token
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                const yamlOutput = document.getElementById('yaml-output');
+                yamlOutput.textContent = data.image_yaml;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+    
+</body>
+</html>
+
